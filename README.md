@@ -1,6 +1,6 @@
 #About:
 
-This is tiny and simple bot to automate checking the weather to a Twitter account.
+This a simple bot to automate checking the weather to a Twitter account.
 It is a fork of the code *Is-It-Raining*, by **John Olson**
 (https://github.com/jso0003auburn).
 I made this so I could run his code in a simple Raspberry Pi, instead of the Google
