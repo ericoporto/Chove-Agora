@@ -1,44 +1,66 @@
 #About:
 
-Is-It-Raining automates a Twitter account for the purpose of checking the current weather and forecast.
+This is tiny and simple bot to automate checking the weather to a Twitter account.
+It is a fork of the code *Is-It-Raining*, by **John Olson**
+(https://github.com/jso0003auburn).
+I made this so I could run his code in a simple Raspberry Pi, instead of the Google
+Cloud. I also needed to translate it to my language, which is Brazilian Portuguese.
 
-It has two main functions:
+Both main functions can be scheduled via Cron.
 
-1 - A forecast tweet that can be scheduled via Cron. 
+###1 - A forecast tweet.
 
 The forecast tweet will post a tweet in the following format:
 
-	Now: yes/no + random comment
-	Later: forecasted conditions
-	Today: Low - High
-	Currently: Current Temp
+	Agora: yes/no + random comment
+	Mais tarde: forecasted conditions
+	Hoje: Low - High
+	No momento: Current Temp
 
-2 - A function that continually checks if it has started raining. 
-This task is started once via Cron and then runs continuously every 
-5 minutes using Google App Engine's Task Queues. The Queue is configured
-by queue.yaml
+The forecast is expected to run in the morning and later in the day:
 
-
-Example account updated by this script: https://twitter.com/IsItRainingATL
+    * 6,18 * * * /usr/bin/python tweetforecast.py
 
 
-Author: John Olson
+###2 - A function that continually checks if it has started raining.
 
-#Dependencies: 
+This function is expected to run every 5 minutes and will only update when trainsitioning
+from not raining to raining weather.
+
+    */5 * * * * /usr/bin/python tweetyesrain.py
+
+
+Example account updated by this script: https://twitter.com/ChuvaEmCampinas
+
+The original John Olson script updates the twitter: https://twitter.com/IsItRainingATL
+
+Author: Erico Vieira Porto
+
+
+#Dependencies:
+
 tweepy (https://github.com/tweepy/tweepy)
 
+requests (https://github.com/kennethreitz/requests)
+
+requests-oauthlib (https://github.com/requests/requests-oauthlib)
+
+### Web dependencies
+
 Twitter API: https://dev.twitter.com/
+
+Yahoo Weather: https://developer.yahoo.com/weather/documentation.html
 
 
 #Configuration:
 
 Configuration is controlled through settings.cfg which must be in the same
-directory as tweet_weather.py.  Your Twitter Application ID tokens need to be
+directory as `weathertwitter.py`.  Your Twitter Application ID tokens need to be
 stored in this file to give the script permission to post status messages
 on your Twitter account. This section is required.
 
 The location of the Weather data is controlled by Yahoo! WOEID which is also
-stored in settings.cfg
+stored in `settings.cfg`.
 
 You can lookup WOEID for a location here:
 
@@ -49,7 +71,7 @@ Example settings.cfg
 --------------------
 
 	[auth]
-	WOEID = 2371098
+	WOEID = 455828
 	CONSUMER_KEY = ConsumerKey
 	CONSUMER_SECRET = ConsumerSecret
 	ACCESS_TOKEN = AccessToken
@@ -58,8 +80,4 @@ Example settings.cfg
 
 #Logging:
 
-Status / error messages are stored within the Google App Engine's logging mechanism and
-can be checked within the console there.
-
-
-
+The script uses the python logging, more information here: https://docs.python.org/2/library/logging.html .
