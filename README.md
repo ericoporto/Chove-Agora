@@ -19,7 +19,7 @@ The forecast tweet will post a tweet in the following format:
 
 The forecast is expected to run in the morning and later in the day:
 
-    * 6,18 * * * /usr/bin/python tweetforecast.py
+    * 6,18 * * * cd /home/Chove-Agora/ && /usr/bin/python /home/Chove-Agora/tweetforecast.py 
 
 
 ###2 - A function that continually checks if it has started raining.
@@ -27,7 +27,7 @@ The forecast is expected to run in the morning and later in the day:
 This function is expected to run every 5 minutes and will only update when trainsitioning
 from not raining to raining weather.
 
-    */5 * * * * /usr/bin/python tweetyesrain.py
+    */5 * * * * cd /home/Chove-Agora/ && /usr/bin/python /home/Chove-Agora/tweetyesrain.py
 
 
 Example account updated by this script: https://twitter.com/ChuvaEmCampinas
