@@ -216,13 +216,13 @@ def TweetForecast():
 #
 
 def SetRainBool(boolToSet):
-    fn = "rainbool.txt"
+    fn = "/tmp/chove-agora.rainbool"
     with open(fn,'w') as f:
         f.write(str(bool(boolToSet)))
         f.close()
 
 def GetRainBool():
-    fn = "rainbool.txt"
+    fn = "/tmp/chove-agora.rainbool"
     RainBoolValue = False
     try:
         with open(fn,'r') as f:
