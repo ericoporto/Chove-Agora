@@ -14,6 +14,15 @@ from tweepy.api import API
 from ConfigParser import NoSectionError, NoOptionError
 from urllib2 import urlopen, URLError
 
+def str_to_bool(s):
+    ss = s.split()
+    if ss[0] == 'True':
+         return True
+    elif ss[0] == 'False':
+         return False
+    else:
+         raise -1 
+
 ywcc_ptbr = {
     '0':  'tornado',                       # tornado
     '1':  'tempestade tropical',           # tropical storm
@@ -217,12 +226,12 @@ def GetRainBool():
     RainBoolValue = False
     try:
         with open(fn,'r') as f:
-            RainBoolValue = bool(f.read())
+            RainBoolValue = str_to_bool(f.read())
             f.close()
     except IOError:
         with open(fn,'w') as f:
             f.write(str(bool(0)))
-            RainBoolValue = bool(f.read())
+            RainBoolValue = str_to_bool(f.read())
             f.close()
 
     return RainBoolValue
@@ -246,7 +255,7 @@ def TweetYes():
     rainCodes = [1,2,3,4,5,6,8,9,10,11,12,18,35,45,46,47]
     thunderCodes = [38]
     if currentCondition in rainCodes:
-        if (GetRainBool()!=True) :
+        if (GetRainBool() != True) :
             yes_choices = ['Sim.', 'Sim.', 'Sim Sim!', "Sim...", 'Sim, chovendo...', 'Sim!!', 'Si!', 'SIM.', 'Sim, chuva.', "Sim, vai precisar de um guarda-chuva.", "Sim, estamos ouvindo chuva!"]
             yes = random.choice(yes_choices)
             a = str( ' ' + yes + '\n' + currentTemp + '°')
