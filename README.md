@@ -8,7 +8,7 @@ Cloud. I also needed to translate it to my language, which is Brazilian Portugue
 Easy install guide
 ------------------
 
-To get keys, create a new Twitter app: https://apps.twitter.com/app/new
+To get keys, create a new Twitter app: https://apps.twitter.com/app
 
 Now get the WOEID for the location you want to use: http://woeid.rosselliot.co.nz/
 
