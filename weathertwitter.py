@@ -21,7 +21,7 @@ def str_to_bool(s):
     elif ss[0] == 'False':
          return False
     else:
-         raise -1 
+         raise -1
 
 ywcc_ptbr = {
     '0':  'tornado',                       # tornado
@@ -104,6 +104,7 @@ def tweet(answer):
 #   Use Cron file to schedule
 
 def TweetForecast():
+    logging.basicConfig(filename='/tmp/TweetForecast.log', level=logging.INFO)
     try:
         forecastfile = urllib.urlopen("http://weather.yahooapis.com/forecastrss?w=" + WOEID + "&u=i")
         tree = ET.parse(forecastfile)
@@ -237,6 +238,7 @@ def GetRainBool():
     return RainBoolValue
 
 def TweetYes():
+    logging.basicConfig(filename='/tmp/TweetYes.log', level=logging.INFO)
     forecastfile = urllib.urlopen("http://weather.yahooapis.com/forecastrss?w=" + WOEID + "&u=i")
     tree = ET.parse(forecastfile)
     root = tree.getroot()
