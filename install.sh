@@ -1,7 +1,24 @@
 #!/bin/bash
-#This script should be in folder you downloaded all the code
-#run this script WITHOUT Sudo.
-#it will ask your password when needed.
+# Run this script WITHOUT Sudo.  It will ask your password when needed.
+# This script should be in folder you downloaded all the code.
+# If not, it will ask to download.
+#
+
+if [[ -f "weathertwitter.py" && -f "tweetforecast.py" && -f "tweetyesrain.py" ]];
+then
+    echo "File exists."
+else
+    echo "This folder doesn't have the needed files"
+    read -r -p "Should I download the files here? [y/N] " response
+    if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+    then
+        git clone https://github.com/ericoporto/Chove-Agora.git
+        cd Chove-Agora
+    else
+        echo "exiting..."
+        exit
+    fi
+fi
 
 #install dependencies
 sudo pip install requests
