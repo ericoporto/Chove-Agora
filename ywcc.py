@@ -173,4 +173,67 @@ ywcc_de  = {
     '3200': 'nicht verfügbar'               # not available
 }
 
+#weather emojis
+#'☀' #– sunshine – sun
+#'☼' #– sunburst
+#'☁' #– cloudy – cloud – dark cloud
+#'☂' #– umbrella
+#'☔️' #– raining – rain
+#'☃' #– snow – snowman
+#'⚡️' #– lightning
+#'❄️' #– cold - snow
+#'⭐️' #– clear night sky
+
+# ywcc_emoji = {
+#     '0':  'tornado',                       # tornado
+#     '1':  'tempestade tropical',           # tropical storm
+#     '2':  'furacão',                       # hurricane
+#     '3':  'tempestade severa',             # severe thunderstorms
+#     '4':  'trovoadas',                     # thunderstorms
+#     '5':  'chuva e neve',                  # mixed rain and snow
+#     '6':  'chuva e granizo fino',          # mixed rain and sleet
+#     '7':  'neve e granizo fino',           # mixed snow and sleet
+#     '8':  'garoa gélida',                  # freezing drizzle
+#     '9':  'garoa',                         # drizzle
+#     '10': 'chuva gélida',                  # freezing rain
+#     '11': 'chuvisco',                      # showers
+#     '12': 'chuva',                         # showers
+#     '13': 'neve em flocos finos',          # snow flurries
+#     '14': 'leve precipitação de neve',     # light snow showers
+#     '15': 'ventos com neve',               # blowing snow
+#     '16': '❄️',                             # snow
+#     '17': 'chuva de granizo',              # hail
+#     '18': 'pouco granizo',                 # sleet
+#     '19': 'pó em suspensão',               # dust
+#     '20': '🌁',                             # foggy
+#     '21': '🌁',                             # haze
+#     '22': '🌁',                             # smoky
+#     '23': 'vendaval',                      # blustery
+#     '24': 'ventando',                      # windy
+#     '25': 'frio',                          # cold
+#     '26': '☁',                             # cloudy
+#     '27': 'muitas nuvens (noite)',         # mostly cloudy (night)
+#     '28': 'muitas nuvens (dia)',           # mostly cloudy (day)
+#     '29': 'parcialmente nublado (noite)',  # partly cloudy (night)
+#     '30': 'parcialmente nublado (dia)',    # partly cloudy (day)
+#     '31': 'céu limpo (noite)',             # clear (night)
+#     '32': 'ensolarado',                    # sunny
+#     '33': 'tempo bom (noite)',             # fair (night)
+#     '34': 'tempo bom (dia)',               # fair (day)
+#     '35': 'chuva e granizo',               # mixed rain and hail
+#     '36': 'quente',                        # hot
+#     '37': '☔️⚡️',                            # isolated thunderstorms
+#     '38': '☔️⚡️',                            # scattered thunderstorms
+#     '39': '☔️⚡️',                            # scattered thunderstorms
+#     '40': '☔️',                             # scattered showers
+#     '41': 'nevasca',                       # heavy snow
+#     '42': 'tempestades de neve esparsas',  # scattered snow showers
+#     '43': 'nevasca',                       # heavy snow
+#     '44': 'parcialmente nublado',          # partly cloudy
+#     '45': 'chuva com trovoadas',           # thundershowers
+#     '46': 'tempestade de neve',            # snow showers
+#     '47': 'relâmpagos e chuvas isoladas',  # isolated thundershowers
+#     '3200': 'não disponível'               # not available
+# }
+
 ywcc= {'pt_BR': ywcc_ptbr, 'en_US': ywcc_enus, 'de_DE': ywcc_de}

@@ -1,9 +1,8 @@
 #About:
 
 This is a simple bot to automate checking the weather to a Twitter account.
-It is a fork of the code *Is-It-Raining*, by **John Olson**
-(https://github.com/jso0003auburn).
-I made this so I could run his code in a simple Raspberry Pi, instead of the Google
+It is a fork of the code [*Is-It-Raining*, by **John Olson**](https://github.com/jso0003auburn).
+I made this so I could run his code in a simple *Raspberry Pi*, instead of the Google
 Cloud. I also needed to translate it to my language, which is Brazilian Portuguese.
 
 Easy install guide
@@ -20,7 +19,12 @@ Ok, now open the terminal and on the directory you want to install:
 
 That's it. If you configured correctly, it's working! Now keep this computer on!
 
-To remove cron entries (uninstall): `bash install.sh uninstall`.
+Example account updated by this script: https://twitter.com/ChuvaEmCampinas
+
+The original John Olson script updates the twitter: https://twitter.com/IsItRainingATL
+
+Author: Erico Vieira Porto
+
 
 # Details on how it works
 
@@ -31,10 +35,10 @@ folders shown here must match to where you've placed the files - using `git clon
 
 The forecast tweet will post a tweet in the following format:
 
-	Agora: yes/no + random comment
-	Mais tarde: forecasted conditions
-	Hoje: Low - High
-	No momento: Current Temp
+	Now: yes/no + random comment
+	Later: forecasted conditions
+	Today: Low - High
+	Currently: Current Temp
 
 The forecast is expected to run in the morning and later in the day:
 
@@ -47,12 +51,6 @@ This function is expected to run every 5 minutes and will only update when train
 from not raining to raining weather.
 
     */5 * * * * cd /home/Chove-Agora/ && /usr/bin/python /home/Chove-Agora/tweetyesrain.py
-
-Example account updated by this script: https://twitter.com/ChuvaEmCampinas
-
-The original John Olson script updates the twitter: https://twitter.com/IsItRainingATL
-
-Author: Erico Vieira Porto
 
 
 #Dependencies:
@@ -117,6 +115,12 @@ To install you must first install the dependencies and clone the code:
 	git clone https://github.com/ericoporto/Chove-Agora.git
 
 Then you need to configure the script and schedule the jobs using Cron.
+
+##Uninstalling
+
+To remove cron entries (uninstall):
+
+    bash install.sh uninstall
 
 #Logging:
 
