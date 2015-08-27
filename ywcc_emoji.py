@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+#
 #weather emojis
 #'☀' #– sunshine – sun
 #'☼' #– sunburst
@@ -60,4 +62,3 @@ ywcc_emoji = {
     '47': 'relâmpagos e chuvas isoladas',  # isolated thundershowers
     '3200': 'não disponível'               # not available
 }
-

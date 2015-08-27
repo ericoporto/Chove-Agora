@@ -14,6 +14,8 @@ from tweepy.api import API
 from ConfigParser import NoSectionError, NoOptionError
 from urllib2 import urlopen, URLError
 
+import ywcc
+
 def str_to_bool(s):
     ss = s.split()
     if ss[0] == 'True':
@@ -23,65 +25,26 @@ def str_to_bool(s):
     else:
          raise -1
 
-ywcc_ptbr = {
-    '0':  'tornado',                       # tornado
-    '1':  'tempestade tropical',           # tropical storm
-    '2':  'furacão',                       # hurricane
-    '3':  'tempestade severa',             # severe thunderstorms
-    '4':  'trovoadas',                     # thunderstorms
-    '5':  'chuva e neve',                  # mixed rain and snow
-    '6':  'chuva e granizo fino',          # mixed rain and sleet
-    '7':  'neve e granizo fino',           # mixed snow and sleet
-    '8':  'garoa gélida',                  # freezing drizzle
-    '9':  'garoa',                         # drizzle
-    '10': 'chuva gélida',                  # freezing rain
-    '11': 'chuvisco',                      # showers
-    '12': 'chuva',                         # showers
-    '13': 'neve em flocos finos',          # snow flurries
-    '14': 'leve precipitação de neve',     # light snow showers
-    '15': 'ventos com neve',               # blowing snow
-    '16': 'neve',                          # snow
-    '17': 'chuva de granizo',              # hail
-    '18': 'pouco granizo',                 # sleet
-    '19': 'pó em suspensão',               # dust
-    '20': 'neblina',                       # foggy
-    '21': 'névoa seca',                    # haze
-    '22': 'enfumaçado',                    # smoky
-    '23': 'vendaval',                      # blustery
-    '24': 'ventando',                      # windy
-    '25': 'frio',                          # cold
-    '26': 'nublado',                       # cloudy
-    '27': 'muitas nuvens (noite)',         # mostly cloudy (night)
-    '28': 'muitas nuvens (dia)',           # mostly cloudy (day)
-    '29': 'parcialmente nublado (noite)',  # partly cloudy (night)
-    '30': 'parcialmente nublado (dia)',    # partly cloudy (day)
-    '31': 'céu limpo (noite)',             # clear (night)
-    '32': 'ensolarado',                    # sunny
-    '33': 'tempo bom (noite)',             # fair (night)
-    '34': 'tempo bom (dia)',               # fair (day)
-    '35': 'chuva e granizo',               # mixed rain and hail
-    '36': 'quente',                        # hot
-    '37': 'tempestades isoladas',          # isolated thunderstorms
-    '38': 'tempestades esparsas',          # scattered thunderstorms
-    '39': 'tempestades esparsas',          # scattered thunderstorms
-    '40': 'chuvas esparsas',               # scattered showers
-    '41': 'nevasca',                       # heavy snow
-    '42': 'tempestades de neve esparsas',  # scattered snow showers
-    '43': 'nevasca',                       # heavy snow
-    '44': 'parcialmente nublado',          # partly cloudy
-    '45': 'chuva com trovoadas',           # thundershowers
-    '46': 'tempestade de neve',            # snow showers
-    '47': 'relâmpagos e chuvas isoladas',  # isolated thundershowers
-    '3200': 'não disponível'               # not available
-}
-
 #settings.cfg contains WOEID for city identification as well as the keys to the Twitter API
 config = ConfigParser.RawConfigParser()
 config.read('settings.cfg')
-WOEID = config.get('auth', 'WOEID')
 
-def F2Cel(fah):
-    return str(int((float(fah)-32.0)/1.8))
+#get language
+lang = ywcc.tolocstr(config.get('localization', 'LANGUAGE'))
+ywcc_lang = ywcc.ywcc[lang]
+
+#is fahrenheit or celsius
+unit = ywcc.totempstr(config.get('localization', 'UNIT'))
+
+WOEID = config.get('localization', 'WOEID')
+
+def F2Cel(fah, unit):
+    if(unit=='F'):
+        return fah
+    elif(unit=='C'):
+        return str(int((float(fah)-32.0)/1.8))
+    else:
+        return str(int(273+(float(fah)-32.0)/1.8))
 
 #updates the twitter account using the codes stored in settings.cfg
 def tweet(answer):
@@ -113,14 +76,22 @@ def TweetForecast():
         item = channel[12]
         description = item[5]
         forecast = item[7]
-        high = F2Cel(forecast.attrib['high'])
-        low = F2Cel(forecast.attrib['low'])
-        forecast = ywcc_ptbr[str(forecast.attrib['code'])]
-        currentTemp = F2Cel(description.attrib['temp'])
-        currentText = ywcc_ptbr[str(description.attrib['code'])]
+        high = F2Cel(forecast.attrib['high'],unit)
+        low = F2Cel(forecast.attrib['low'],unit)
+        forecast = ywcc_lang[str(forecast.attrib['code'])]
+        currentTemp = F2Cel(description.attrib['temp'],unit)
+        currentText = ywcc_lang[str(description.attrib['code'])]
         currentC = description.attrib['code']
         currentCondition = int(currentC)
         forecastfile.close()
+
+        with open('choices/'+lang+'/tweetforecast.txt') as thetweetf:
+            the_tweet = thetweetf.read().splitlines()
+            thetweetf.close()
+            tw_now = the_tweet[0]
+            tw_later = the_tweet[1]
+            tw_today = the_tweet[2]
+            tw_atmoment = the_tweet[3]
 
         #Yahoos weather API uses certain condition codes.
         #Depending on the condition a comment on the weather will be generated.
@@ -138,21 +109,21 @@ def TweetForecast():
 
 
         if currentCondition in rainCodes:
-            with open('choices/yeschoices.txt') as yes_choicesf:
+            with open('choices/'+lang+'/yeschoices.txt') as yes_choicesf:
                 yes_choices = yes_choicesf.readlines()
                 yes = random.choice(yes_choices)
                 yes_choicesf.close()
                 a = yes
                 comment = str('')
         else:
-            with open('choices/nochoices.txt') as no_choicesf:
+            with open('choices/'+lang+'/nochoices.txt') as no_choicesf:
                 no_choices = no_choicesf.readlines()
                 no = random.choice(no_choices)
                 no_choicesf.close()
                 a = no
 
         if currentCondition in scatteredCodes:
-            with open('choices/scatteredchoices.txt') as scattered_choicesf:
+            with open('choices/'+lang+'/scatteredchoices.txt') as scattered_choicesf:
                 scattered_choices = scattered_choicesf.readlines()
                 scattered = random.choice(scattered_choices)
                 scattered_choicesf.close()
@@ -160,14 +131,14 @@ def TweetForecast():
                 comment = str('')
 
         if currentCondition in fairCodes:
-            with open('choices/fairchoices.txt') as fair_choicesf:
+            with open('choices/'+lang+'/fairchoices.txt') as fair_choicesf:
                 fair_choices = fair_choicesf.readlines()
                 fair = random.choice(fair_choices)
                 fair_choicesf.close()
                 comment = fair
 
         if currentCondition in overcastCodes:
-            with open('choices/overcastchoices.txt') as overcast_choicesf:
+            with open('choices/'+lang+'/overcastchoices.txt') as overcast_choicesf:
                 overcast_choices = overcast_choicesf.readlines()
                 overcast = random.choice(overcast_choices)
                 overcast_choicesf.close()
@@ -177,7 +148,7 @@ def TweetForecast():
                 comment = str('')
 
         if currentCondition in snowCodes:
-            with open('choices/snowchoices.txt') as snow_choicesf:
+            with open('choices/'+lang+'/snowchoices.txt') as snow_choicesf:
                 snow_choices = snow_choicesf.readlines()
                 snow = random.choice(snow_choices)
                 snow_choicesf.close()
@@ -191,7 +162,7 @@ def TweetForecast():
         #this is where the tweet is formatted and put together
         a = a.rstrip("\r\n")
         comment = comment.rstrip("\r\n")
-        answer = ('Agora: ' + a + ' ' + comment + '\n' + "Mais tarde: " + forecast + '.' + '\n' + 'Hoje: ' + low + '°C - ' + high + '°C\n' + 'No momento: ' + currentTemp + '°C')
+        answer = (tw_now + ': ' + a + ' ' + comment + '\n' + tw_later + ': ' + forecast + '.' + '\n' + tw_today + ': ' + low + '°' + unit + ' - ' + high +'' + '°' + unit +'\n' + tw_atmoment + ': ' + currentTemp + '°' + unit)
         logging.info(answer)
         tweet(answer)
 
@@ -248,19 +219,23 @@ def TweetYes():
     currentC = description.attrib['code']
     currentCondition = int(currentC)
     forecast = item[7]
-    high = F2Cel(forecast.attrib['high'])
-    low = F2Cel(forecast.attrib['low'])
-    forecast = ywcc_ptbr[str(forecast.attrib['code'])]
-    currentTemp = F2Cel(description.attrib['temp'])
-    currentText = description.attrib['text']
+    high = F2Cel(forecast.attrib['high'],unit)
+    low = F2Cel(forecast.attrib['low'],unit)
+    forecast = ywcc_lang[str(forecast.attrib['code'])]
+    currentTemp = F2Cel(description.attrib['temp'],unit)
+    currentText = ywcc_lang[str(description.attrib['code'])]
     forecastfile.close()
+
     rainCodes = [1,2,3,4,5,6,8,9,10,11,12,18,35,45,46,47]
     thunderCodes = [38]
     if currentCondition in rainCodes:
         if (GetRainBool() != True) :
-            yes_choices = ['Sim.', 'Sim.', 'Sim Sim!', "Sim...", 'Sim, chovendo...', 'Sim!!', 'Si!', 'SIM.', 'Sim, chuva.', "Sim, vai precisar de um guarda-chuva.", "Sim, estamos ouvindo chuva!"]
+            with open('choices/'+lang+'/itsraining.txt') as yes_choicesf:
+                yes_choices = snow_choicesf.readlines()
+                yes_choicesf.close()
+            yes_choices = []
             yes = random.choice(yes_choices)
-            a = str( ' ' + yes + '\n' + currentTemp + '°')
+            a = str( ' ' + yes + '\n' + currentTemp + '°' + unit)
             tweet(a)
             logging.info(a)
             time.sleep(30)
@@ -272,7 +247,7 @@ def TweetYes():
 
     if currentCondition in thunderCodes:
         if (GetRainBool()!=True) :
-    		a = str( currentText + '\n' + currentTemp + '°C')
+    		a = str( currentText + '\n' + currentTemp + '°' +unit)
     		tweet(a)
     		logging.info(a)
     		time.sleep(30)

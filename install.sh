@@ -4,6 +4,19 @@
 # If not, it will ask to download.
 #
 
+for i in "$@" ; do
+    if [[ $i == "uninstall" ]] ; then
+        crontab -l | while read -r; do
+            [[ $REPLY = *"tweetforecast.py"* ]] || [[ $REPLY = *"tweetyesrain.py"* ]] && continue
+            printf '%s\n' "$REPLY"
+        done | crontab -
+        echo " "
+        echo "removed entries from cron"
+        echo " "
+        exit
+    fi
+done
+
 if [[ -f "weathertwitter.py" && -f "tweetforecast.py" && -f "tweetyesrain.py" ]];
 then
     echo "File exists."
@@ -35,6 +48,11 @@ nano  $THISFOLDER/settings.cfg
 crontab -l > original.$THISNOW.cronfile
 
 #let's make a new crontab
+crontab -l | while read -r; do
+    [[ $REPLY = *"tweetforecast.py"* ]] || [[ $REPLY = *"tweetyesrain.py"* ]] && continue
+    printf '%s\n' "$REPLY"
+done | crontab -
+
 crontab -l > /tmp/new.cronfile
 
 printf "\n...adding to cron...\n"
