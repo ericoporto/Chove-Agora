@@ -6,6 +6,24 @@ It is a fork of the code *Is-It-Raining*, by **John Olson**
 I made this so I could run his code in a simple Raspberry Pi, instead of the Google
 Cloud. I also needed to translate it to my language, which is Brazilian Portuguese.
 
+Easy install guide
+------------------
+
+To get keys, create a new Twitter app here: https://apps.twitter.com/app/new
+
+Now get the location you want to use here: http://woeid.rosselliot.co.nz/
+
+on the directory you wish to install:
+
+    wget https://raw.githubusercontent.com/ericoporto/Chove-Agora/master/install.sh
+	bash install.sh
+
+That's it. If you configured correctly, it's working! Now keep this computer on!
+
+To remove cron entries (uninstall): `bash install.sh uninstall`.
+
+# Details on how it works
+
 Both main functions can be scheduled via Cron (using `crontab -e`). Remember the
 folders shown here must match to where you've placed the files - using `git clone`.
 
@@ -85,6 +103,9 @@ Example settings.cfg
 
 #Installing
 
+If you don't want to use the script, you can do a manual install. It's simple and
+ you get to understand how it works.
+
 To install you must first install the dependencies and clone the code:
 
     sudo pip install requests
@@ -93,8 +114,6 @@ To install you must first install the dependencies and clone the code:
 	git clone https://github.com/ericoporto/Chove-Agora.git
 
 Then you need to configure the script and schedule the jobs using Cron.
-
-I've created a install script for doing this automated but it's untested: [install.sh](https://raw.githubusercontent.com/ericoporto/Chove-Agora/master/install.sh)
 
 #Logging:
 

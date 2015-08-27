@@ -68,4 +68,4 @@ crontab /tmp/new.cronfile
 rm /tmp/new.cronfile
 
 #say success
-printf "\n\nInstalled!\n\n"
+printf "\nInstalled!\nkeep this computer on.\n\n"
