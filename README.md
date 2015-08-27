@@ -92,13 +92,16 @@ http://woeid.rosselliot.co.nz/
 Example settings.cfg
 --------------------
 
-	[auth]
-	WOEID = 455828
-	CONSUMER_KEY = ConsumerKey
-	CONSUMER_SECRET = ConsumerSecret
-	ACCESS_TOKEN = AccessToken
-	ACCESS_TOKEN_SECRET = AccessSecret
+    [localization]
+    LANGUAGE = pt-BR
+    UNIT = celsius
+    WOEID = 455828
 
+    [auth]
+    CONSUMER_KEY = ConsumerKey
+    CONSUMER_SECRET = ConsumerSecret
+    ACCESS_TOKEN = AccessToken
+    ACCESS_TOKEN_SECRET = AccessSecret
 
 
 #Installing
