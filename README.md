@@ -9,11 +9,11 @@ Cloud. I also needed to translate it to my language, which is Brazilian Portugue
 Easy install guide
 ------------------
 
-To get keys, create a new Twitter app here: https://apps.twitter.com/app/new
+To get keys, create a new Twitter app: https://apps.twitter.com/app/new
 
-Now get the location you want to use here: http://woeid.rosselliot.co.nz/
+Now get the WOEID for the location you want to use: http://woeid.rosselliot.co.nz/
 
-on the directory you wish to install:
+Ok, now open the terminal and on the directory you want to install:
 
     wget https://raw.githubusercontent.com/ericoporto/Chove-Agora/master/install.sh
 	bash install.sh
