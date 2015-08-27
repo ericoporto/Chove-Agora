@@ -1,4 +1,5 @@
 #!/bin/bash
+#This script should be in folder you downloaded all the code
 #run this script WITHOUT Sudo.
 #it will ask your password when needed.
 
