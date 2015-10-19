@@ -18,9 +18,9 @@ import ywcc
 
 def str_to_bool(s):
     ss = s.split()
-    if ss[0] == 'True':
+    if ss[0] == 'True' or ss[0] == 'true':
          return True
-    elif ss[0] == 'False':
+    elif ss[0] == 'False' or ss[0] == 'false':
          return False
     else:
          raise -1
@@ -67,7 +67,9 @@ def tweet(answer):
 #   Use Cron file to schedule
 
 def TweetForecast():
-    logging.basicConfig(filename='/tmp/TweetForecast.log', level=logging.INFO)
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s %(levelname)s %(message)s',
+                        filename='/tmp/TweetForecast.log')
     try:
         forecastfile = urllib.urlopen("http://weather.yahooapis.com/forecastrss?w=" + WOEID + "&u=i")
         tree = ET.parse(forecastfile)
@@ -209,50 +211,67 @@ def GetRainBool():
     return RainBoolValue
 
 def TweetYes():
-    logging.basicConfig(filename='/tmp/TweetYes.log', level=logging.INFO)
-    forecastfile = urllib.urlopen("http://weather.yahooapis.com/forecastrss?w=" + WOEID + "&u=i")
-    tree = ET.parse(forecastfile)
-    root = tree.getroot()
-    channel =  root[0]
-    item = channel[12]
-    description = item[5]
-    currentC = description.attrib['code']
-    currentCondition = int(currentC)
-    forecast = item[7]
-    high = F2Cel(forecast.attrib['high'],unit)
-    low = F2Cel(forecast.attrib['low'],unit)
-    forecast = ywcc_lang[str(forecast.attrib['code'])]
-    currentTemp = F2Cel(description.attrib['temp'],unit)
-    currentText = ywcc_lang[str(description.attrib['code'])]
-    forecastfile.close()
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s %(levelname)s %(message)s',
+                        filename='/tmp/TweetYes.log')
+    try:
+        forecastfile = urllib.urlopen("http://weather.yahooapis.com/forecastrss?w=" + WOEID + "&u=i")
+        tree = ET.parse(forecastfile)
+        root = tree.getroot()
+        channel =  root[0]
+        item = channel[12]
+        description = item[5]
+        currentC = description.attrib['code']
+        currentCondition = int(currentC)
+        forecast = item[7]
+        high = F2Cel(forecast.attrib['high'],unit)
+        low = F2Cel(forecast.attrib['low'],unit)
+        forecast = ywcc_lang[str(forecast.attrib['code'])]
+        currentTemp = F2Cel(description.attrib['temp'],unit)
+        currentText = ywcc_lang[str(description.attrib['code'])]
+        forecastfile.close()
 
-    rainCodes = [1,2,3,4,5,6,8,9,10,11,12,18,35,45,46,47]
-    thunderCodes = [38]
-    if currentCondition in rainCodes:
-        if (GetRainBool() != True) :
-            with open('choices/'+lang+'/itsraining.txt') as yes_choicesf:
-                yes_choices = snow_choicesf.readlines()
-                yes_choicesf.close()
-            yes_choices = []
-            yes = random.choice(yes_choices)
-            a = str( ' ' + yes + '\n' + currentTemp + '°' + unit)
-            tweet(a)
-            logging.info(a)
-            time.sleep(30)
-        SetRainBool(True)
-        return True
+        rainCodes = [1,2,3,4,5,6,8,9,10,11,12,18,35,45,46,47]
+        thunderCodes = [38]
+        rainbool = GetRainBool()
 
-    else:
-        logging.debug('Ainda não está chovendo: ' + currentC + ' ' + currentText + ' ' + currentTemp)
+        logging.debug('rainbool: ' + str(rainbool))
 
-    if currentCondition in thunderCodes:
-        if (GetRainBool()!=True) :
-    		a = str( currentText + '\n' + currentTemp + '°' +unit)
-    		tweet(a)
-    		logging.info(a)
-    		time.sleep(30)
-        SetRainBool(True)
-        return True
+        if currentCondition in rainCodes:
+            if (rainbool != True) :
+                with open('choices/'+lang+'/itsraining.txt') as yes_choicesf:
+                    yes_choices = snow_choicesf.readlines()
+                    yes_choicesf.close()
+                yes_choices = []
+                yes = random.choice(yes_choices)
+                a = str( ' ' + yes + '\n' + currentTemp + '°' + unit)
+                tweet(a)
+                logging.info(a)
+                time.sleep(30)
+            SetRainBool(True)
+            return True
 
-    SetRainBool(False)
-    return False
+        else:
+            logging.debug('Ainda não está chovendo: ' + currentC + ' ' + currentText + ' ' + currentTemp)
+
+        if currentCondition in thunderCodes:
+            if (rainbool !=True) :
+        		a = str( currentText + '\n' + currentTemp + '°' +unit)
+        		tweet(a)
+        		logging.info(a)
+        		time.sleep(30)
+            SetRainBool(True)
+            return True
+
+        SetRainBool(False)
+        return False
+
+
+    except URLError:
+        logging.error('URLError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+
+    except IOError:
+        logging.error('IOError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+
+    except:
+        logging.error('Unexpected error: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
