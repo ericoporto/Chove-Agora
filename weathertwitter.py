@@ -240,7 +240,7 @@ def TweetYes():
         if currentCondition in rainCodes:
             if (rainbool != True) :
                 with open('choices/'+lang+'/itsraining.txt') as yes_choicesf:
-                    yes_choices = snow_choicesf.readlines()
+                    yes_choices = yes_choicesf.readlines()
                     yes_choicesf.close()
                 yes_choices = []
                 yes = random.choice(yes_choices)
