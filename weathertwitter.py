@@ -273,4 +273,4 @@ def TweetYes():
         logging.error('IOError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
     except:
-        logging.error('Unexpected error: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.error('Unexpected error: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + ', line ' + str(sys.exc_info()[2].tb_lineno))
