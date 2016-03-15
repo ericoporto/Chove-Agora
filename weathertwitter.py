@@ -242,7 +242,6 @@ def TweetYes():
                 with open('choices/'+lang+'/itsraining.txt') as yes_choicesf:
                     yes_choices = yes_choicesf.readlines()
                     yes_choicesf.close()
-                yes_choices = []
                 yes = random.choice(yes_choices)
                 a = str( ' ' + yes + '\n' + currentTemp + '°' + unit)
                 tweet(a)
