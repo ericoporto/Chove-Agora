@@ -55,11 +55,14 @@ from not raining to raining weather.
 
 #Dependencies:
 
+If you are using the bash installer, you will need **pip**.
+
 tweepy (https://github.com/tweepy/tweepy)
 
 requests (https://github.com/kennethreitz/requests)
 
 requests-oauthlib (https://github.com/requests/requests-oauthlib)
+
 
 ### Web dependencies
 
@@ -127,3 +130,7 @@ To remove cron entries (uninstall):
 The script uses the python logging, more information here: https://docs.python.org/2/library/logging.html .
 
 This will log each cron to /tmp/TweetForecast.log and /tmp/TweetYes.log.
+
+Using cronjobs mean that the directory where the python scripts will be run (the
+Chove-Agora folder) must not be encrypted. This will result in mail logs stating
+that it can't cd to folder.
