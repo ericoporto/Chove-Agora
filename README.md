@@ -1,9 +1,15 @@
-#About:
+Chove-Agora
+===========
+![Chove-Agora Icon](https://raw.githubusercontent.com/ericoporto/Chove-Agora/master/icon.png)
+
+About
+-----
 
 This is a simple bot to automate checking the weather to a Twitter account.
 It is a fork of the code [*Is-It-Raining*, by **John Olson**](https://github.com/jso0003auburn).
 I made this so I could run his code in a simple *Raspberry Pi*, instead of the Google
 Cloud. I also needed to translate it to my language, which is Brazilian Portuguese.
+
 
 Easy install guide
 ------------------
@@ -26,7 +32,8 @@ The original John Olson script updates the twitter: https://twitter.com/IsItRain
 Author: Erico Vieira Porto
 
 
-# Details on how it works
+Details on how it works
+-----------------------
 
 Both main functions can be scheduled via Cron (using `crontab -e`). Remember the
 folders shown here must match to where you've placed the files - using `git clone`.
@@ -53,7 +60,8 @@ from not raining to raining weather.
     */5 * * * * cd /home/Chove-Agora/ && /usr/bin/python /home/Chove-Agora/tweetyesrain.py
 
 
-#Dependencies:
+Dependencies
+------------
 
 If you are using the bash installer, you will need **pip**.
 
@@ -71,8 +79,8 @@ Twitter API: https://dev.twitter.com/
 Yahoo Weather: https://developer.yahoo.com/weather/documentation.html
 
 
-
-#Configuration:
+Configuration
+-------------
 
 Configuration is controlled through settings.cfg which must be in the same
 directory as `weathertwitter.py`.  Your Twitter Application ID tokens need to be
@@ -90,8 +98,8 @@ You can lookup WOEID for a location here:
 http://woeid.rosselliot.co.nz/
 
 
-Example settings.cfg
---------------------
+### Example settings.cfg
+
 
     [localization]
     LANGUAGE = pt-BR
@@ -105,7 +113,8 @@ Example settings.cfg
     ACCESS_TOKEN_SECRET = AccessSecret
 
 
-#Installing
+Installing
+----------
 
 If you don't want to use the script, you can do a manual install. It's simple and
  you get to understand how it works.
@@ -119,13 +128,17 @@ To install you must first install the dependencies and clone the code:
 
 Then you need to configure the script and schedule the jobs using Cron.
 
-##Uninstalling
+
+Uninstalling
+------------
 
 To remove cron entries (uninstall):
 
     bash install.sh uninstall
 
-#Logging:
+
+Logging
+-------
 
 The script uses the python logging, more information here: https://docs.python.org/2/library/logging.html .
 
