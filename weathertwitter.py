@@ -169,15 +169,15 @@ def TweetForecast():
         tweet(answer)
 
     except URLError:
-        logging.error('URLError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.error('URLError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + ', line ' + str(sys.exc_info()[2].tb_lineno))
         logging.error(answer)
 
     except IOError:
-        logging.error('IOError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.error('IOError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + ', line ' + str(sys.exc_info()[2].tb_lineno))
         logging.error(answer)
 
     except:
-        logging.error('Unexpected error: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.error('Unexpected error: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + ', line ' + str(sys.exc_info()[2].tb_lineno))
         logging.error(answer)
 
 #Checks if it is raining or not and replies with a simple yes and the current temp
@@ -267,10 +267,10 @@ def TweetYes():
 
 
     except URLError:
-        logging.error('URLError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.error('URLError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + ', line ' + str(sys.exc_info()[2].tb_lineno))
 
     except IOError:
-        logging.error('IOError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        logging.error('IOError: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + ', line ' + str(sys.exc_info()[2].tb_lineno))
 
     except:
         logging.error('Unexpected error: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + ', line ' + str(sys.exc_info()[2].tb_lineno))
